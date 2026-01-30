@@ -13,14 +13,15 @@
 namespace autoware::obstacle_cruise_planner
 {
 namespace ct = autoware::common_types;
-using Polygon2d = std::vector<ct::Point>;
+using polygon_utils::Polygon2d;
 
 class ObstacleCruisePlannerNode
 {
 public:
   ObstacleCruisePlannerNode(
     const LongitudinalInfo & longitudinal_info,
-    const BehaviorDeterminationParam & behavior_param);
+    const BehaviorDeterminationParam & behavior_param,
+    const ct::VehicleInfo & vehicle_info);
 
   std::vector<ct::TrajectoryPoint> planTrajectory(
     const ct::Trajectory & trajectory, const double ego_vel, const double ego_acc,
@@ -54,7 +55,7 @@ private:
     const std::vector<ct::TrajectoryPoint> & traj_points, const ct::Obstacle & obstacle) const;
 
   std::vector<Polygon2d> createOneStepPolygons(
-    const std::vector<ct::TrajectoryPoint> & traj_points) const;
+    const std::vector<ct::TrajectoryPoint> & traj_points, const double lat_margin) const;
 
   void checkConsistency(
     const ct::TimeStamp & current_time,
@@ -65,6 +66,7 @@ private:
   std::unique_ptr<PlannerInterface> planner_;
   LongitudinalInfo longitudinal_info_;
   BehaviorDeterminationParam behavior_param_;
+  ct::VehicleInfo vehicle_info_;
   std::vector<ct::StopObstacle> prev_closest_stop_object_obstacles_;
 };
 }  // namespace autoware::obstacle_cruise_planner

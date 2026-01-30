@@ -4,7 +4,9 @@
 #include "autoware/obstacle_cruise_planner/motion_utils.hpp"
 
 #include <algorithm>
+#include <boost/geometry.hpp>
 #include <cmath>
+#include <limits>
 #include <memory>
 #include <optional>
 
@@ -23,10 +25,12 @@ double calcTimeDiffSeconds(const ct::TimeStamp & from, const ct::TimeStamp & to)
 }  // namespace
 ObstacleCruisePlannerNode::ObstacleCruisePlannerNode(
   const LongitudinalInfo & longitudinal_info,
-  const BehaviorDeterminationParam & behavior_param)
+  const BehaviorDeterminationParam & behavior_param,
+  const ct::VehicleInfo & vehicle_info)
 : planner_(std::make_unique<OptimizationBasedPlanner>(longitudinal_info)),
   longitudinal_info_(longitudinal_info),
-  behavior_param_(behavior_param)
+  behavior_param_(behavior_param),
+  vehicle_info_(vehicle_info)
 {
 }
 
@@ -171,27 +175,38 @@ std::optional<ct::StopObstacle> ObstacleCruisePlannerNode::createStopObstacleFor
   stop_obstacle.collision_point.y = obstacle.pose.position.y;
   stop_obstacle.collision_point.z = obstacle.pose.position.z;
 
-  if (!obstacle.predicted_paths.empty()) {
-    if (const auto collision_info =
-          polygon_utils::getCollisionPoint(traj_points, obstacle.predicted_paths)) {
-      stop_obstacle.collision_point = collision_info->first;
-      stop_obstacle.dist_to_collide_on_decimated_traj = collision_info->second;
+  const double max_lat_margin_for_stop = behavior_param_.max_lat_margin_for_stop;
+  const auto traj_polys = createOneStepPolygons(traj_points, max_lat_margin_for_stop);
+  const auto obstacle_poly = polygon_utils::toPolygon2d(obstacle.pose, obstacle.shape);
+  double precise_lat_dist = std::numeric_limits<double>::max();
+  for (const auto & traj_poly : traj_polys) {
+    const double current_dist = boost::geometry::distance(traj_poly, obstacle_poly);
+    if (current_dist < precise_lat_dist) {
+      precise_lat_dist = current_dist;
     }
-  } else if (const auto collision_info =
-               polygon_utils::getCollisionPoint(traj_points, stop_obstacle)) {
+  }
+  if (precise_lat_dist > max_lat_margin_for_stop) {
+    if (!obstacle.predicted_paths.empty()) {
+      const auto collision_info = polygon_utils::getCollisionPointFromPredictedPath(
+        traj_points, traj_polys, obstacle.predicted_paths.front(), obstacle.shape, true,
+        vehicle_info_, std::numeric_limits<double>::max());
+      if (collision_info) {
+        stop_obstacle.collision_point = collision_info->first;
+        stop_obstacle.dist_to_collide_on_decimated_traj = collision_info->second;
+        return stop_obstacle;
+      }
+    }
+    return std::nullopt;
+  }
+
+  if (const auto collision_info = polygon_utils::getCollisionPoint(
+        traj_points, traj_polys, obstacle, true, vehicle_info_)) {
     stop_obstacle.collision_point = collision_info->first;
     stop_obstacle.dist_to_collide_on_decimated_traj = collision_info->second;
+    return stop_obstacle;
   }
 
-  const double obstacle_length = obstacle.shape.dimensions.x;
-  constexpr double kEgoLength = 4.89;  // sample_vehicle_description length
-  const double collision_offset = 0.5 * kEgoLength + 0.5 * std::max(0.0, obstacle_length);
-  if (collision_offset > 0.0) {
-    stop_obstacle.dist_to_collide_on_decimated_traj =
-      std::max(0.0, stop_obstacle.dist_to_collide_on_decimated_traj - collision_offset);
-  }
-
-  return stop_obstacle;
+  return std::nullopt;
 }
 
 std::optional<ct::SlowDownObstacle> ObstacleCruisePlannerNode::createSlowDownObstacleForPredictedObject(
@@ -262,8 +277,40 @@ void ObstacleCruisePlannerNode::checkConsistency(
 }
 
 std::vector<Polygon2d> ObstacleCruisePlannerNode::createOneStepPolygons(
-  const std::vector<ct::TrajectoryPoint> & /*traj_points*/) const
+  const std::vector<ct::TrajectoryPoint> & traj_points, const double lat_margin) const
 {
-  return {};
+  std::vector<Polygon2d> polygons;
+  polygons.reserve(traj_points.size());
+  const double front = vehicle_info_.max_longitudinal_offset_m;
+  const double rear = vehicle_info_.min_longitudinal_offset_m;
+  const double half_width = vehicle_info_.vehicle_width_m * 0.5 + lat_margin;
+
+  for (const auto & point : traj_points) {
+    const auto & pos = point.pose.position;
+    const auto & ori = point.pose.orientation;
+    const double siny_cosp = 2.0 * (ori.w * ori.z + ori.x * ori.y);
+    const double cosy_cosp = 1.0 - 2.0 * (ori.y * ori.y + ori.z * ori.z);
+    const double yaw = std::atan2(siny_cosp, cosy_cosp);
+    const double cos_y = std::cos(yaw);
+    const double sin_y = std::sin(yaw);
+
+    std::array<ct::Point, 4> corners{};
+    corners[0] = ct::Point{front, half_width, 0.0};
+    corners[1] = ct::Point{front, -half_width, 0.0};
+    corners[2] = ct::Point{rear, -half_width, 0.0};
+    corners[3] = ct::Point{rear, half_width, 0.0};
+
+    Polygon2d poly;
+    for (const auto & corner : corners) {
+      const double x = pos.x + corner.x * cos_y - corner.y * sin_y;
+      const double y = pos.y + corner.x * sin_y + corner.y * cos_y;
+      boost::geometry::append(poly.outer(), polygon_utils::Point2d(x, y));
+    }
+    boost::geometry::append(poly.outer(), poly.outer().front());
+    boost::geometry::correct(poly);
+    polygons.push_back(poly);
+  }
+
+  return polygons;
 }
 }  // namespace autoware::obstacle_cruise_planner

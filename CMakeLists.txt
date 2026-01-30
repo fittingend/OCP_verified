@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(SOURCE_FILES
-  app/main.cpp
+  src/main.cpp
   src/node.cpp
   src/planner_interface.cpp
   src/polygon_utils.cpp

@@ -110,6 +110,20 @@ struct Shape
   Vector3 dimensions;
 };
 
+struct VehicleInfo
+{
+  double wheel_base{0.0};
+  double front_overhang{0.0};
+  double rear_overhang{0.0};
+  double left_overhang{0.0};
+  double right_overhang{0.0};
+  double wheel_tread{0.0};
+  double vehicle_length_m{0.0};
+  double vehicle_width_m{0.0};
+  double max_longitudinal_offset_m{0.0};
+  double min_longitudinal_offset_m{0.0};
+};
+
 // --------------------------------------------------------------------------
 // 5) Path 계열 타입
 // --------------------------------------------------------------------------
