@@ -18,21 +18,6 @@ std::vector<autoware::common_types::TrajectoryPoint> PlannerInterface::generateS
 {
   auto shared_stop_obstacles = stop_obstacles;
   if (shared_stop_obstacles.empty()) {
-    if (!planner_data.traj_points.empty()) {
-      autoware::common_types::StopObstacle fallback;
-      fallback.uuid = "goal_stop";
-      const size_t last_idx = planner_data.traj_points.size() - 1;
-      fallback.dist_to_collide_on_decimated_traj =
-        motion_utils::calcSignedArcLength(planner_data.traj_points, 0, last_idx);
-      const auto & final_pose = planner_data.traj_points.at(last_idx).pose;
-      fallback.collision_point = ct::Point{
-        final_pose.position.x, final_pose.position.y, final_pose.position.z};
-      fallback.velocity = 0.0;
-      fallback.stamp = {};
-      shared_stop_obstacles.push_back(fallback);
-    }
-  }
-  if (shared_stop_obstacles.empty()) {
     return planner_data.traj_points;
   }
 

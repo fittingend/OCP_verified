@@ -1,4 +1,4 @@
-# Install script for directory: /home/sujin/Desktop/obstacle_cruise_planner
+# Install script for directory: /home/sujin/Documents/01_GIT/OSS_OCP_verified
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/sujin/Desktop/obstacle_cruise_planner/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

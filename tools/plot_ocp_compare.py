@@ -4,7 +4,8 @@
 Usage:
   python3 tools/plot_ocp_compare.py
   python3 tools/plot_ocp_compare.py --scenario 1
-  python3 tools/plot_ocp_compare.py --base_dir /path/to/reference_IO
+  python3 tools/plot_ocp_compare.py --base-dir /path/to/reference_IO
+  python3 tools/plot_ocp_compare.py --scenario 1 --plot
 
 This script parses jsonl trajectories (supporting both wrapped and bare payloads,
 variable timestamps, etc.), computes key metrics, and saves matplotlib PNG graphs per scenario.
@@ -20,16 +21,17 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 
-DEFAULT_BASE_DIR = Path("/home/sujin/Desktop/obstacle_cruise_planner/reference_IO")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_BASE_DIR = REPO_ROOT / "reference_IO"
 SCENARIO_MAP = {
-    1: "scenario1",
-    2: "scenario2",
-    3: "scenario3",
+    1: "scenario_1",
+    2: "scenario_2",
+    3: "scenario_3",
 }
 TRAJECTORY_FILENAME = "planning__scenario_planning__lane_driving__trajectory.jsonl"
 ANSWER_FILENAME = "ANSWER_planning__scenario_planning__lane_driving__trajectory.jsonl"
 OBJECTS_FILENAME = "perception__object_recognition__objects.jsonl"
-OUTPUT_ROOT = Path("/home/sujin/Desktop/obstacle_cruise_planner/tools/plots")
+OUTPUT_ROOT = REPO_ROOT / "tools" / "plots"
 STOP_VELOCITY_EPS = 1e-3
 
 
@@ -144,6 +146,7 @@ def plot_overlay(
     ylabel: str,
     output_path: Path,
     first_frame_idx: int = 0,
+    close_plot: bool = True,
 ) -> None:
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(range(first_frame_idx, first_frame_idx + len(actual)), actual, label="actual", linewidth=1.5)
@@ -155,7 +158,8 @@ def plot_overlay(
     ax.grid(True, linestyle="--", linewidth=0.5)
     fig.tight_layout()
     fig.savefig(output_path, dpi=150)
-    plt.close(fig)
+    if close_plot:
+        plt.close(fig)
 
 
 def plot_error(
@@ -163,6 +167,7 @@ def plot_error(
     title: str,
     ylabel: str,
     output_path: Path,
+    close_plot: bool = True,
 ) -> None:
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(range(len(errors)), errors, label="error", linewidth=1.5, color="tab:red")
@@ -173,7 +178,8 @@ def plot_error(
     ax.grid(True, linestyle="--", linewidth=0.5)
     fig.tight_layout()
     fig.savefig(output_path, dpi=150)
-    plt.close(fig)
+    if close_plot:
+        plt.close(fig)
 
 
 def plot_xy_error(
@@ -181,6 +187,7 @@ def plot_xy_error(
     dy: List[float],
     title: str,
     output_path: Path,
+    close_plot: bool = True,
 ) -> None:
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(range(len(dx)), dx, label="Δx_last", linewidth=1.5)
@@ -192,13 +199,15 @@ def plot_xy_error(
     ax.grid(True, linestyle="--", linewidth=0.5)
     fig.tight_layout()
     fig.savefig(output_path, dpi=150)
-    plt.close(fig)
+    if close_plot:
+        plt.close(fig)
 
 
 def plot_obstacle_flag(
     flags: List[int],
     title: str,
     output_path: Path,
+    close_plot: bool = True,
 ) -> None:
     fig, ax = plt.subplots(figsize=(8, 2))
     ax.fill_between(range(len(flags)), 0, flags, step="post", alpha=0.3, color="tab:purple")
@@ -211,7 +220,8 @@ def plot_obstacle_flag(
     ax.grid(True, linestyle="--", linewidth=0.5)
     fig.tight_layout()
     fig.savefig(output_path, dpi=150)
-    plt.close(fig)
+    if close_plot:
+        plt.close(fig)
 
 
 def load_obstacle_events(path: Path) -> List[Tuple[float, int]]:
@@ -255,7 +265,7 @@ def ensure_output_dir(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
-def process_scenario(index: int, base_dir: Path) -> None:
+def process_scenario(index: int, base_dir: Path, show_plots: bool) -> None:
     scenario_name = SCENARIO_MAP[index]
     scenario_root = base_dir / scenario_name
     output_dir = OUTPUT_ROOT / scenario_name
@@ -314,12 +324,14 @@ def process_scenario(index: int, base_dir: Path) -> None:
         "Final velocity (actual vs answer)",
         "velocity [m/s]",
         output_dir / "final_velocity_overlay.png",
+        close_plot=not show_plots,
     )
     plot_error(
         [abs(err) for err in final_vel_errors[:frames_compared]],
         "Δfinal_velocity",
         "m/s",
         output_dir / "final_velocity_error.png",
+        close_plot=not show_plots,
     )
     plot_overlay(
         stop_dist_actual,
@@ -327,12 +339,14 @@ def process_scenario(index: int, base_dir: Path) -> None:
         "Stop distance (actual vs answer)",
         "distance [m]",
         output_dir / "stop_distance_overlay.png",
+        close_plot=not show_plots,
     )
     plot_xy_error(
         dx_last[:frames_compared],
         dy_last[:frames_compared],
         "Δlast position (x/y)",
         output_dir / "xy_last_error.png",
+        close_plot=not show_plots,
     )
     plot_overlay(
         yaw_actual,
@@ -340,6 +354,7 @@ def process_scenario(index: int, base_dir: Path) -> None:
         "Yaw (actual vs answer)",
         "radians",
         output_dir / "yaw_overlay.png",
+        close_plot=not show_plots,
     )
 
     object_flag_count = 0
@@ -351,6 +366,7 @@ def process_scenario(index: int, base_dir: Path) -> None:
             flags,
             "Obstacle presence (Scenario3)",
             output_dir / "obstacle_flag.png",
+            close_plot=not show_plots,
         )
 
     max_final_vel_err = max((abs(val) for val in final_vel_errors[:frames_compared]), default=0.0)
@@ -366,6 +382,9 @@ def process_scenario(index: int, base_dir: Path) -> None:
     print(f"  max |Δx_last| = {max_dx:.6f} m, max |Δy_last| = {max_dy:.6f} m")
     if index == 3 and objects_path.exists():
         print(f"  frames where objects present: {object_flag_count}")
+
+    if show_plots:
+        plt.show()
 
 
 def parse_scenarios(value: Optional[str]) -> List[int]:
@@ -391,18 +410,34 @@ def main() -> None:
         help="comma-separated scenario numbers (1/2/3) to process; default=1,2,3",
     )
     parser.add_argument(
-        "--base_dir",
+        "--base-dir",
+        dest="base_dir",
         type=Path,
         default=DEFAULT_BASE_DIR,
         help="reference IO base directory",
+    )
+    parser.add_argument(
+        "--base_dir",
+        dest="base_dir_legacy",
+        type=Path,
+        default=None,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--plot",
+        action="store_true",
+        help="Show matplotlib figures (BPP-style).",
     )
     args = parser.parse_args()
     try:
         scenarios = parse_scenarios(args.scenario)
     except ValueError as exc:
         parser.error(str(exc))
+    base_dir = args.base_dir
+    if args.base_dir_legacy is not None:
+        base_dir = args.base_dir_legacy
     for scenario_index in scenarios:
-        process_scenario(scenario_index, args.base_dir)
+        process_scenario(scenario_index, base_dir, args.plot)
 
 
 if __name__ == "__main__":

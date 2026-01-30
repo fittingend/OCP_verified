@@ -218,6 +218,8 @@ struct JsonValue
   std::variant<std::monostate, bool, double, std::string, array_t, object_t> value;
 };
 
+std::vector<ct::Point> parsePointArray(const JsonValue & array);
+
 class JsonParser
 {
 public:
@@ -450,6 +452,23 @@ ct::Point parsePoint(const JsonValue & json)
   return point;
 }
 
+std::string parseUuidBytes(const JsonValue & array)
+{
+  if (!array.isArray()) {
+    return {};
+  }
+  std::ostringstream oss;
+  oss << std::hex;
+  for (std::size_t i = 0; i < array.arraySize(); ++i) {
+    const auto & value = array[i];
+    const int byte_val = value.isNumber() ? static_cast<int>(value.asNumber()) : 0;
+    oss.width(2);
+    oss.fill('0');
+    oss << (byte_val & 0xff);
+  }
+  return oss.str();
+}
+
 ct::Orientation parseOrientation(const JsonValue & json)
 {
   ct::Orientation orientation;
@@ -458,6 +477,30 @@ ct::Orientation parseOrientation(const JsonValue & json)
   orientation.z = json["z"].isNumber() ? json["z"].asNumber() : 0.0;
   orientation.w = json["w"].isNumber() ? json["w"].asNumber() : 1.0;
   return orientation;
+}
+
+ct::Shape parseShape(const JsonValue & json)
+{
+  ct::Shape shape;
+  if (!json.isObject()) {
+    return shape;
+  }
+  if (json["type"].isNumber()) {
+    const int type_val = static_cast<int>(json["type"].asNumber());
+    if (type_val >= ct::Shape::BOUNDING_BOX && type_val <= ct::Shape::POLYGON) {
+      shape.type = static_cast<ct::Shape::Type>(type_val);
+    }
+  }
+  if (json["dimensions"].isObject()) {
+    const auto & dims = json["dimensions"];
+    shape.dimensions.x = dims["x"].isNumber() ? dims["x"].asNumber() : 0.0;
+    shape.dimensions.y = dims["y"].isNumber() ? dims["y"].asNumber() : 0.0;
+    shape.dimensions.z = dims["z"].isNumber() ? dims["z"].asNumber() : 0.0;
+  }
+  if (json["footprint"].isObject() && json["footprint"]["points"].isArray()) {
+    shape.footprint.point = parsePointArray(json["footprint"]["points"]);
+  }
+  return shape;
 }
 
 ct::Pose parsePose(const JsonValue & payload)
@@ -636,7 +679,11 @@ std::vector<ct::Point> parsePointArray(const JsonValue & array)
   for (std::size_t i = 0; i < array.arraySize(); ++i) {
     const auto & element = array[i];
     if (element.isObject()) {
-      points.push_back(parsePoint(element));
+      if (element["position"].isObject()) {
+        points.push_back(parsePoint(element["position"]));
+      } else {
+        points.push_back(parsePoint(element));
+      }
     }
   }
   return points;
@@ -668,6 +715,8 @@ ct::PredictedObject parsePredictedObject(const JsonValue & json)
   ct::PredictedObject object;
   if (json["uuid"].isString()) {
     object.uuid = json["uuid"].asString();
+  } else if (json["object_id"].isObject() && json["object_id"]["uuid"].isArray()) {
+    object.uuid = parseUuidBytes(json["object_id"]["uuid"]);
   }
   if (json["distance_along_traj"].isNumber()) {
     object.distance_along_traj = json["distance_along_traj"].asNumber();
@@ -677,9 +726,24 @@ ct::PredictedObject parsePredictedObject(const JsonValue & json)
   }
   if (json["velocity"].isNumber()) {
     object.velocity = json["velocity"].asNumber();
+  } else if (json["kinematics"].isObject()) {
+    const auto & twist = json["kinematics"]["initial_twist_with_covariance"]["twist"];
+    if (twist.isObject()) {
+      const auto & linear = twist["linear"];
+      if (linear.isObject()) {
+        const double vx = linear["x"].isNumber() ? linear["x"].asNumber() : 0.0;
+        const double vy = linear["y"].isNumber() ? linear["y"].asNumber() : 0.0;
+        object.velocity = std::hypot(vx, vy);
+      }
+    }
   }
+  object.shape = parseShape(json["shape"]);
   object.pose = parsePose(json);
-  object.predicted_paths = parsePredictedPaths(json["predicted_paths"]);
+  if (json["predicted_paths"].isArray()) {
+    object.predicted_paths = parsePredictedPaths(json["predicted_paths"]);
+  } else if (json["kinematics"].isObject() && json["kinematics"]["predicted_paths"].isArray()) {
+    object.predicted_paths = parsePredictedPaths(json["kinematics"]["predicted_paths"]);
+  }
   return object;
 }
 
@@ -1408,8 +1472,8 @@ int runScenario3(const fs::path & scenario_dir)
     const std::string trajectory_topic = "/planning/scenario_planning/lane_driving/trajectory";
 
     acp::LongitudinalInfo info;
-    info.safe_distance_margin = 1.0;
-    info.terminal_safe_distance_margin = 0.0;
+    info.safe_distance_margin = 5.0;
+    info.terminal_safe_distance_margin = 3.0;
     info.hold_stop_distance_threshold = 0.5;
     info.hold_stop_velocity_threshold = 0.2;
     acp::BehaviorDeterminationParam behavior_param;
@@ -1459,7 +1523,7 @@ int runScenario3(const fs::path & scenario_dir)
 
     for (size_t motion_idx = 0; motion_idx < motion_msgs.size(); ++motion_idx) {
       const auto & frame = motion_msgs[motion_idx];
-      const bool include_goal_stop = true;
+      const bool include_goal_stop = false;
       while (kin_idx < kinematic_msgs.size() &&
              isStampLessOrEqual(kinematic_msgs[kin_idx].stamp, frame.stamp)) {
         last_kin = kinematic_msgs[kin_idx].data;

@@ -119,6 +119,8 @@ std::vector<ct::Obstacle> ObstacleCruisePlannerNode::convertToObstacles(
     obstacle.lateral_distance = object.lateral_distance;
     obstacle.velocity = object.velocity;
     obstacle.pose = object.pose;
+    obstacle.predicted_paths = object.predicted_paths;
+    obstacle.shape = object.shape;
     obstacles.push_back(obstacle);
   }
   return obstacles;
@@ -169,9 +171,24 @@ std::optional<ct::StopObstacle> ObstacleCruisePlannerNode::createStopObstacleFor
   stop_obstacle.collision_point.y = obstacle.pose.position.y;
   stop_obstacle.collision_point.z = obstacle.pose.position.z;
 
-  if (const auto collision_info = polygon_utils::getCollisionPoint(traj_points, stop_obstacle)) {
+  if (!obstacle.predicted_paths.empty()) {
+    if (const auto collision_info =
+          polygon_utils::getCollisionPoint(traj_points, obstacle.predicted_paths)) {
+      stop_obstacle.collision_point = collision_info->first;
+      stop_obstacle.dist_to_collide_on_decimated_traj = collision_info->second;
+    }
+  } else if (const auto collision_info =
+               polygon_utils::getCollisionPoint(traj_points, stop_obstacle)) {
     stop_obstacle.collision_point = collision_info->first;
     stop_obstacle.dist_to_collide_on_decimated_traj = collision_info->second;
+  }
+
+  const double obstacle_length = obstacle.shape.dimensions.x;
+  constexpr double kEgoLength = 4.89;  // sample_vehicle_description length
+  const double collision_offset = 0.5 * kEgoLength + 0.5 * std::max(0.0, obstacle_length);
+  if (collision_offset > 0.0) {
+    stop_obstacle.dist_to_collide_on_decimated_traj =
+      std::max(0.0, stop_obstacle.dist_to_collide_on_decimated_traj - collision_offset);
   }
 
   return stop_obstacle;

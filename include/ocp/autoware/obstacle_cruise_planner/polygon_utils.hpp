@@ -12,5 +12,9 @@ namespace ct = autoware::common_types;
 std::optional<std::pair<ct::Point, double>> getCollisionPoint(
   const std::vector<ct::TrajectoryPoint> & traj_points, const ct::StopObstacle & obstacle);
 
+std::optional<std::pair<ct::Point, double>> getCollisionPoint(
+  const std::vector<ct::TrajectoryPoint> & traj_points,
+  const std::vector<ct::PredictedPath> & predicted_paths);
+
 std::vector<ct::PointWithStamp> getCollisionPoints(const ct::PredictedObject & object);
 }  // namespace autoware::obstacle_cruise_planner::polygon_utils

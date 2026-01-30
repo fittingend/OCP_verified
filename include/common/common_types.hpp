@@ -320,6 +320,7 @@ struct PredictedObject
   double lateral_distance{0.0};
   double velocity{0.0};
   Pose pose;
+  Shape shape;
   std::vector<PredictedPath> predicted_paths;
 };
 
@@ -330,6 +331,8 @@ struct Obstacle
   double lateral_distance{0.0};
   double velocity{0.0};
   Pose pose;
+  Shape shape;
+  std::vector<PredictedPath> predicted_paths;
 };
 
 struct StopObstacle

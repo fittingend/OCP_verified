@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sujin/Desktop/obstacle_cruise_planner
+CMAKE_SOURCE_DIR = /home/sujin/Documents/01_GIT/OSS_OCP_verified
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sujin/Desktop/obstacle_cruise_planner/build
+CMAKE_BINARY_DIR = /home/sujin/Documents/01_GIT/OSS_OCP_verified/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/obstacle_cruise_planner.dir/depend.make
@@ -72,72 +72,72 @@ include CMakeFiles/obstacle_cruise_planner.dir/flags.make
 CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/flags.make
 CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o: ../app/main.cpp
 CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o -c /home/sujin/Desktop/obstacle_cruise_planner/app/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.o -c /home/sujin/Documents/01_GIT/OSS_OCP_verified/app/main.cpp
 
 CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Desktop/obstacle_cruise_planner/app/main.cpp > CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Documents/01_GIT/OSS_OCP_verified/app/main.cpp > CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.i
 
 CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Desktop/obstacle_cruise_planner/app/main.cpp -o CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Documents/01_GIT/OSS_OCP_verified/app/main.cpp -o CMakeFiles/obstacle_cruise_planner.dir/app/main.cpp.s
 
 CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/flags.make
 CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o: ../src/node.cpp
 CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o -c /home/sujin/Desktop/obstacle_cruise_planner/src/node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.o -c /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/node.cpp
 
 CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Desktop/obstacle_cruise_planner/src/node.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/node.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.i
 
 CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Desktop/obstacle_cruise_planner/src/node.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/node.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/node.cpp.s
 
 CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/flags.make
 CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o: ../src/planner_interface.cpp
 CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o -c /home/sujin/Desktop/obstacle_cruise_planner/src/planner_interface.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.o -c /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/planner_interface.cpp
 
 CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Desktop/obstacle_cruise_planner/src/planner_interface.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/planner_interface.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.i
 
 CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Desktop/obstacle_cruise_planner/src/planner_interface.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/planner_interface.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/planner_interface.cpp.s
 
 CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/flags.make
 CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o: ../src/polygon_utils.cpp
 CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o -c /home/sujin/Desktop/obstacle_cruise_planner/src/polygon_utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.o -c /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/polygon_utils.cpp
 
 CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Desktop/obstacle_cruise_planner/src/polygon_utils.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/polygon_utils.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.i
 
 CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Desktop/obstacle_cruise_planner/src/polygon_utils.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/polygon_utils.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/polygon_utils.cpp.s
 
 CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/flags.make
 CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o: ../src/optimization_based_planner.cpp
 CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o: CMakeFiles/obstacle_cruise_planner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o -c /home/sujin/Desktop/obstacle_cruise_planner/src/optimization_based_planner.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o -MF CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o.d -o CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o -c /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/optimization_based_planner.cpp
 
 CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Desktop/obstacle_cruise_planner/src/optimization_based_planner.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/optimization_based_planner.cpp > CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.i
 
 CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Desktop/obstacle_cruise_planner/src/optimization_based_planner.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sujin/Documents/01_GIT/OSS_OCP_verified/src/optimization_based_planner.cpp -o CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.s
 
 # Object files for target obstacle_cruise_planner
 obstacle_cruise_planner_OBJECTS = \
@@ -157,7 +157,7 @@ obstacle_cruise_planner: CMakeFiles/obstacle_cruise_planner.dir/src/polygon_util
 obstacle_cruise_planner: CMakeFiles/obstacle_cruise_planner.dir/src/optimization_based_planner.cpp.o
 obstacle_cruise_planner: CMakeFiles/obstacle_cruise_planner.dir/build.make
 obstacle_cruise_planner: CMakeFiles/obstacle_cruise_planner.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable obstacle_cruise_planner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable obstacle_cruise_planner"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/obstacle_cruise_planner.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -169,6 +169,6 @@ CMakeFiles/obstacle_cruise_planner.dir/clean:
 .PHONY : CMakeFiles/obstacle_cruise_planner.dir/clean
 
 CMakeFiles/obstacle_cruise_planner.dir/depend:
-	cd /home/sujin/Desktop/obstacle_cruise_planner/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sujin/Desktop/obstacle_cruise_planner /home/sujin/Desktop/obstacle_cruise_planner /home/sujin/Desktop/obstacle_cruise_planner/build /home/sujin/Desktop/obstacle_cruise_planner/build /home/sujin/Desktop/obstacle_cruise_planner/build/CMakeFiles/obstacle_cruise_planner.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/sujin/Documents/01_GIT/OSS_OCP_verified/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sujin/Documents/01_GIT/OSS_OCP_verified /home/sujin/Documents/01_GIT/OSS_OCP_verified /home/sujin/Documents/01_GIT/OSS_OCP_verified/build /home/sujin/Documents/01_GIT/OSS_OCP_verified/build /home/sujin/Documents/01_GIT/OSS_OCP_verified/build/CMakeFiles/obstacle_cruise_planner.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/obstacle_cruise_planner.dir/depend
 

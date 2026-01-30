@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/sujin/Desktop/obstacle_cruise_planner/include -I/home/sujin/Desktop/obstacle_cruise_planner/include/common -I/home/sujin/Desktop/obstacle_cruise_planner/include/ocp
+CXX_INCLUDES = -I/home/sujin/Documents/01_GIT/OSS_OCP_verified/include -I/home/sujin/Documents/01_GIT/OSS_OCP_verified/include/common -I/home/sujin/Documents/01_GIT/OSS_OCP_verified/include/ocp
 
 CXX_FLAGS = -std=c++17
 

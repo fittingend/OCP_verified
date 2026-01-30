@@ -18,9 +18,25 @@ std::optional<std::pair<ct::Point, double>> getCollisionPoint(
   pose.position.x = obstacle.collision_point.x;
   pose.position.y = obstacle.collision_point.y;
   pose.position.z = obstacle.collision_point.z;
-  const auto index = motion_utils::findNearestSegmentIndex(traj_points, pose);
-  const double distance = motion_utils::calcSignedArcLength(traj_points, 0, index);
+  const double distance = motion_utils::calcSignedArcLengthToPoint(traj_points, obstacle.collision_point);
   return std::make_pair(obstacle.collision_point, distance);
+}
+
+std::optional<std::pair<ct::Point, double>> getCollisionPoint(
+  const std::vector<ct::TrajectoryPoint> & traj_points,
+  const std::vector<ct::PredictedPath> & predicted_paths)
+{
+  if (traj_points.empty() || predicted_paths.empty() || predicted_paths.front().path.empty()) {
+    return std::nullopt;
+  }
+  std::optional<std::pair<ct::Point, double>> best{};
+  for (const auto & point : predicted_paths.front().path) {
+    const double distance = motion_utils::calcSignedArcLengthToPoint(traj_points, point);
+    if (!best || distance < best->second) {
+      best = std::make_pair(point, distance);
+    }
+  }
+  return best;
 }
 
 std::vector<ct::PointWithStamp> getCollisionPoints(const ct::PredictedObject & object)
